@@ -1,0 +1,48 @@
+<div th:replace="~{fragments/header}"></div>
+<div class="filter_class">
+  <h2>Filter</h2>
+  <form th:action="@{/expense/filter}" method="POST">
+    <div class="mb-3">
+      <label class="form-label">Type</label>
+      <select class="form-select" name="type">
+        <option value="">Select</option>
+        <option value="Income">Income</option>
+        <option value="Expense">Expense</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Category</label>
+      <select
+        class="form-select"
+        aria-label="Default select example"
+        name="category"
+      >
+        <option value="">Open this select menu</option>
+        <option
+          th:value="${cat.catName}"
+          th:each="cat :${category}"
+          th:text="${cat.catName}"
+        ></option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Start Date</label>
+      <input type="date" name="startDate" class="form-control max-today" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label">End Date</label>
+      <input type="date" name="endDate" class="form-control max-today" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+<script>
+  $(function () {
+    $('[type="date"].max-today').prop("max", function () {
+      return new Date().toJSON().split("T")[0];
+    });
+  });
+</script>
+
+<div th:replace="~{fragments/footer}"></div>

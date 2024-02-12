@@ -1,0 +1,70 @@
+<div th:replace="~{fragments/header}"></div>
+
+<body>
+  <div th:replace="~{fragments/navbar}"></div>
+  <center>
+    <h1>ADD EXPENSE OR INCOME</h1>
+    <form method="post" th:action="@{/home/save}" class="transc_form">
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label"
+          >Transaction Name</label
+        >
+        <input type="text" class="form-control" name="transcName" />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label"
+          >Transaction Description</label
+        >
+        <input type="text" class="form-control" name="transcDesc" />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label"
+          >Transaction Category</label
+        >
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          name="category"
+        >
+          <option selected>Open this select menu</option>
+          <option
+            th:value="${cat.catName}"
+            th:each="cat :${category}"
+            th:text="${cat.catName}"
+          ></option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label"
+          >Transaction Amount</label
+        >
+        <input type="number" min="100" class="form-control" name="amount" />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label"
+          >Transaction Date</label
+        >
+        <input type="date" class="form-control max-today" name="transcDate" />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label"
+          >Transaction Type</label
+        >
+        <select class="form-select" name="transcType">
+          <option value="Expense">Expense</option>
+          <option value="Income">Income</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </center>
+</body>
+
+<script>
+  $(function () {
+    $('[type="date"].max-today').prop("max", function () {
+      return new Date().toJSON().split("T")[0];
+    });
+  });
+</script>
+<div th:replace="~{fragments/footer}"></div>

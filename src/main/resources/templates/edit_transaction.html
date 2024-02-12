@@ -1,0 +1,103 @@
+<div th:replace="~{fragments/header}"></div>
+
+<body>
+  <div th:replace="~{fragments/navbar}"></div>
+  <center>
+    <h1>EDIT EXPENSE OR INCOME</h1>
+    <form
+      method="post"
+      th:action="@{'/edit/'+${expense.id}}"
+      class="transc_form"
+      th:object="${expense}"
+    >
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label"
+          >Transaction Name</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          name="transcName"
+          th:value="${expense.transcName}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label"
+          >Transaction Description</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          name="transcDesc"
+          th:value="${expense.transcDesc}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label"
+          >Transaction Category</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          name="category"
+          th:value="${expense.category}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label"
+          >Transaction Amount</label
+        >
+        <input
+          type="number"
+          min="100"
+          class="form-control currency-format"
+          name="amount"
+          th:value="${expense.amount}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label"
+          >Transaction Date</label
+        >
+        <input
+          type="date"
+          class="form-control"
+          name="transcDate"
+          th:value="${expense.transcDate}"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label"
+          >Transaction Type</label
+        >
+        <select class="form-select" name="transcType">
+          <option value="" disabled>Select...</option>
+          <option
+            th:value="Expense"
+            th:selected="${expense.transcType == 'Expense'}"
+          >
+            Expense
+          </option>
+          <option
+            th:value="Income"
+            th:selected="${expense.transcType == 'Income'}"
+          >
+            Income
+          </option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </center>
+
+  <script>
+    $(document).ready(function () {
+      $(".currency-format").on("keyup", function (event) {
+        // Format input value using numeral.js
+        var formattedValue = numeral($(this).val()).format("$0,0.00");
+        $(this).val(formattedValue);
+      });
+    });
+  </script>
+</body>
+<div th:replace="~{fragments/footer}"></div>

@@ -1,0 +1,108 @@
+<body>
+  <div th:replace="~{fragments/navbar}"></div>
+  <div class="balance_summary">
+    <h1>Total : <span th:text="${total}"></span></h1>
+    <div>Income : <span th:text=" ${totalIncome}"></span></div>
+    <div>Expense : <span th:text=" ${totalExpense}"></span></div>
+  </div>
+  <div class="container">
+    <div th:replace="~{filter_transaction}"></div>
+
+    <table class="table table-dark table-hover home_table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Transaction Name</th>
+          <th scope="col">Transaction Description</th>
+          <th scope="col">Transaction Category</th>
+          <th scope="col">Transaction Amount</th>
+          <th scope="col">Transaction Type</th>
+          <th scope="col">Transaction Date</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody class="table-group-divider exp_table">
+        <tr th:each="exp :${expense} " th:if="${expense.hasContent()}">
+          <th scope="row" th:text="${exp.id}"></th>
+          <td th:text="${exp.transcName}"></td>
+          <td th:text="${exp.transcDesc}"></td>
+          <td th:text="${exp.category}"></td>
+          <td class="currency" th:text="${exp.amount}"></td>
+          <td th:text="${exp.transcType}"></td>
+          <td th:text="${exp.transcDate}"></td>
+          <td class="td_action">
+            <a th:href="@{/edit/{id}(id=${exp.id})}" style="color: greenyellow"
+              >Edit</a
+            >
+            <a th:href="@{/delete/{id}(id=${exp.id})}" style="color: red"
+              >Delete</a
+            >
+          </td>
+        </tr>
+        <tr th:unless="${expense.hasContent()}">
+          <td colspan="8" style="text-align: center; vertical-align: middle">
+            NO DATA
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- Pagination controls -->
+    <nav aria-label="Page navigation example">
+      <ul
+        class="pagination"
+        th:each="page : ${expense.getNumber()}"
+        style="display: flex; flex-direction: column; text-align: center"
+      >
+        <li class="page-item">
+          <a
+            class="page-link"
+            th:href="@{/expense/filter(page=0, type=${type != null ?type:''})}"
+            >First</a
+          >
+        </li>
+        <li class="page-item" th:if="${page > 0}">
+          <a
+            class="page-link"
+            th:href="@{/expense/filter(page=${page > 0 ? page-1:0}, type=${type != null ?type:''})}"
+            th:text="Previous"
+          ></a>
+        </li>
+        <li class="page-item">
+          <a
+            class="page-link"
+            th:href="@{/expense/filter(page=${page} , type=${type != null ?type:''})}"
+            th:text="${page}"
+          ></a>
+        </li>
+        <li class="page-item">
+          <a
+            class="page-link"
+            th:href="@{/expense/filter(page=${page}+1, type=${type != null ?type:''}) }"
+            th:text="${page}+1"
+          ></a>
+        </li>
+        <li class="page-item">
+          <a
+            class="page-link"
+            th:href="@{/expense/filter(page=${page}+2 ,type=${type != null ?type:''}) }"
+            th:text="${page}+2"
+          ></a>
+        </li>
+        <li class="page-item">
+          <a
+            class="page-link"
+            th:href="@{/expense/filter(page=${page}+1 , type=${type != null ?type:''}) }"
+            th:text="Next"
+          ></a>
+        </li>
+        <li class="page-item">
+          <a
+            class="page-link"
+            th:href="@{/expense/filter(page=${expense.getTotalPages() > 0? expense.getTotalPages()-1: 0} ,type=${type != null ?type:''})}"
+            >Last</a
+          >
+        </li>
+      </ul>
+    </nav>
+  </div>
+</body>
